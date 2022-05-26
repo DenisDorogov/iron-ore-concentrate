@@ -20,7 +20,7 @@
         "sass": "^1.32.11",
         "sass-loader": "^11.0.1",
         "vue": "^3.2.36",
-        "vue-loader": "^15.9.8",
+        "vue-loader": "^16.0.0",
         "vue-router": "^4.0.15",
         "vue-template-compiler": "^2.6.12"
     }
