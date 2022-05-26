@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: '',
+    name: 'my-button',
     components: {},
     props: {},
     methods: {}

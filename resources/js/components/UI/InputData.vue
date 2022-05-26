@@ -1,10 +1,10 @@
 <template>
-
+     <input  type="text">
 </template>
 
 <script>
 export default {
-    name: '',
+    name: 'input-data',
     components: {},
     props: {},
     methods: {}
