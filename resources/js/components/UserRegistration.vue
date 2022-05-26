@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>Регистрация пользователя</h1>
+      <h3>Регистрация пользователя</h3>
       <form>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>

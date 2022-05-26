@@ -1,8 +1,8 @@
 <template>
     <div class="container-md">
         <nav-bar></nav-bar>
-        <user-registration></user-registration>
-        <table-page></table-page>
+        <router-view></router-view>
+        
     </div>
     
 </template>
