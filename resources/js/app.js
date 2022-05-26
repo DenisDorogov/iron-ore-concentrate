@@ -2,6 +2,9 @@ require('./bootstrap');
 import { createApp } from 'vue';
 import App from './App.vue';
 import components from './components/UI';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 
 const app = createApp({});
 

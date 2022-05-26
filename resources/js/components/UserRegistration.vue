@@ -1,5 +1,5 @@
 <template>
-  <div class="container-md">
+  <div>
       <h1>Регистрация пользователя</h1>
       <form>
   <div class="mb-3">
@@ -59,15 +59,10 @@
 </script>
 
 
-<style scoped>
-.container-md {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1.5rem;
-    background-color: rgba(0, 123, 255, .15);
-    border: 1px solid rgba(0, 123, 255, .2);
 
-}
+
+<style scoped>
+/* 
 .mb-3 {
     margin-bottom: 1rem!important;
 }
@@ -193,5 +188,5 @@ button, select {
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: #0d6efd;
     --bs-btn-disabled-border-color: #0d6efd;
-}
+} */
 </style>
