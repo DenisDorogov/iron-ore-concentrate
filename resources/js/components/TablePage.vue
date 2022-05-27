@@ -38,9 +38,21 @@
 
 
 <script>
+import axios from 'axios'
+
     export default {
         name: "table-page",
-        components: {}
+        components: {},
+        methods: {
+          getData() {
+            axios.get('/api/get')
+                  .then( response => console.log('/api/get: ', response))
+          }
+        },
+        mounted() {
+          this.getData();
+
+        }
     }
 </script>
 

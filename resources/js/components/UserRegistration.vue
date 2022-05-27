@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h3>Регистрация пользователя</h3>
+      <h3 class="">Регистрация пользователя</h3>
       <form @submit.prevent>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -15,7 +15,7 @@
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div>
-  <button v-on:click='onSubmit' type="submit" class="btn btn-primary">Submit</button>
+  <button @click.pervent='sendForm' type="submit" class="btn btn-primary">Submit</button>
 </form>
     
   </div>
@@ -23,41 +23,47 @@
 
 <script>
 import axios from 'axios'
+import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
 
   export default {
     name: "user-registration",
+    components: {},
     data() {
       return {
         form: {
           email: '',
           password: '',
           name: '',
-          food: null,
           checked: []
-        },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
-        show: true
+        }
       }
     },
+
+
+
     methods: {
-      onSubmit(event) {
-        // event.preventDefault()
-        // alert(JSON.stringify(this.form))
-        // this.$emit('create', this.form);
-        axios.post('http://localhost:8876/api/auth/login', {
-          email: this.form.email,
-          password: this.form.password
-        }).then(response => this.checkUser(response.data))
-          .catch(e => console.log(e.response));
+      
+      ...mapState({
+        userId: 'user/userID',
+        isAuth: 'user/isAuth',
+        name: 'user/name',
+
+
+      }),
+      ...mapMutations({
+        setCurrentUser: 'user/setCurrentUser',
+        unSetCurrentlogout: 'user/unSetCurrentlogout'
+      }),
+      ...mapActions({
+        fetchUser: 'user/fetchUser'
+    }),
+
+      sendForm() {
+        console.log(this.form);
+        this.fetchUser(this.form);
+
       },
 
-      checkUser(response) {
-        let {status, data, message} = response;
-        if (status === 'Success')
-
-        console.log(status)
-        console.log(message)
-      },
 
       onReset(event) {
         // event.preventDefault()

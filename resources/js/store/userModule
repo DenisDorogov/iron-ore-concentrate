@@ -1,0 +1,39 @@
+import axios from "axios";
+
+export const userModule = {
+    state: () => ({
+        userId: null,
+        isAuth: false,
+        name: ''
+    }),
+    getters: {
+        getCurrentUserName() {
+            return this.name
+        }
+    },
+    mutations: {
+        setCurrentUser(state, data) {
+            state.userId = data.id,
+            state.isAuth = true,
+            state.name = data.name
+        },
+        unSetCurrentlogout(state) {
+            state.userId = null,
+            state.isAuth = false,
+            state.name = ''
+        }
+
+    },
+    actions: {
+        fetchUser({ state, commit}, data ) {
+        //     // axios.get('/sanctum/csrf-cookie')
+        //     //     .then(res => {
+                    axios.post('http://localhost:8876/api/auth/login', {
+                        email: data.email,
+                        password: data.password
+                    }).then(response => commit('setCurrentUser', response.data.data))
+                     
+        },
+    },
+    namespaced: true
+}

@@ -5,7 +5,8 @@ import TablePage from "../components/TablePage";
 const routes = [
     {
         path: '/',
-        component: UserRegistration
+        component: UserRegistration,
+        name: 'registration'
     },
     {
         path: '/table',
