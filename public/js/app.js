@@ -23186,12 +23186,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "user-registration",
   data: function data() {
     return {
       form: {
         email: '',
+        password: '',
         name: '',
         food: null,
         checked: []
@@ -23205,14 +23209,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onSubmit: function onSubmit(event) {
-      event.preventDefault();
-      alert(JSON.stringify(this.form));
-    },
-    onReset: function onReset(event) {
       var _this = this;
 
-      event.preventDefault(); // Reset our form values
+      // event.preventDefault()
+      // alert(JSON.stringify(this.form))
+      // this.$emit('create', this.form);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://localhost:8876/api/auth/login', {
+        email: this.form.email,
+        password: this.form.password
+      }).then(function (response) {
+        return _this.checkUser(response.data);
+      })["catch"](function (e) {
+        return console.log(e.response);
+      });
+    },
+    checkUser: function checkUser(response) {
+      var status = response.status,
+          data = response.data,
+          message = response.message;
+      console.log(status);
+      console.log(message);
+    },
+    onReset: function onReset(event) {
+      var _this2 = this;
 
+      // event.preventDefault()
+      // Reset our form values
       this.form.email = '';
       this.form.name = '';
       this.form.food = null;
@@ -23220,7 +23242,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.show = false;
       this.$nextTick(function () {
-        _this.show = true;
+        _this2.show = true;
       });
     }
   }
@@ -23450,11 +23472,93 @@ var _withScopeId = function _withScopeId(n) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-63989ee2"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
 };
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-63989ee2>Регистрация пользователя</h3><form data-v-63989ee2><div class=\"mb-3\" data-v-63989ee2><label for=\"exampleInputEmail1\" class=\"form-label\" data-v-63989ee2>Email address</label><input type=\"email\" class=\"form-control\" id=\"exampleInputEmail1\" aria-describedby=\"emailHelp\" data-v-63989ee2><div id=\"emailHelp\" class=\"form-text\" data-v-63989ee2>We&#39;ll never share your email with anyone else.</div></div><div class=\"mb-3\" data-v-63989ee2><label for=\"exampleInputPassword1\" class=\"form-label\" data-v-63989ee2>Password</label><input type=\"password\" class=\"form-control\" id=\"exampleInputPassword1\" data-v-63989ee2></div><div class=\"mb-3 form-check\" data-v-63989ee2><input type=\"checkbox\" class=\"form-check-input\" id=\"exampleCheck1\" data-v-63989ee2><label class=\"form-check-label\" for=\"exampleCheck1\" data-v-63989ee2>Check me out</label></div><button type=\"submit\" class=\"btn btn-primary\" data-v-63989ee2>Submit</button></form>", 2);
+var _hoisted_1 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Регистрация пользователя", -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_3 = [_hoisted_1];
+var _hoisted_2 = {
+  "class": "mb-3"
+};
+
+var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "exampleInputEmail1",
+    "class": "form-label"
+  }, "Email address", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_4 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    id: "emailHelp",
+    "class": "form-text"
+  }, "We'll never share your email with anyone else.", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_5 = {
+  "class": "mb-3"
+};
+
+var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "exampleInputPassword1",
+    "class": "form-label"
+  }, "Password", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "mb-3 form-check"
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "checkbox",
+    "class": "form-check-input",
+    id: "exampleCheck1"
+  }), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-check-label",
+    "for": "exampleCheck1"
+  }, "Check me out")], -1
+  /* HOISTED */
+  );
+});
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _hoisted_3);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.form.email = $event;
+    }),
+    type: "email",
+    "class": "form-control",
+    id: "exampleInputEmail1",
+    "aria-describedby": "emailHelp"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]]), _hoisted_4]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.form.password = $event;
+    }),
+    type: "password",
+    "class": "form-control",
+    id: "exampleInputPassword1"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.password]])]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.onSubmit && $options.onSubmit.apply($options, arguments);
+    }),
+    type: "submit",
+    "class": "btn btn-primary"
+  }, "Submit")], 32
+  /* HYDRATE_EVENTS */
+  )]);
 }
 
 /***/ }),
@@ -23578,8 +23682,8 @@ var routes = [{
   component: _components_TablePage__WEBPACK_IMPORTED_MODULE_1__["default"]
 }];
 var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createRouter)({
-  routes: routes,
-  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createWebHistory)(process.env.BASE_URL)
+  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createWebHistory)(process.env.BASE_URL),
+  routes: routes
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 

@@ -1,33 +1,36 @@
 <template>
   <div>
       <h3>Регистрация пользователя</h3>
-      <form>
+      <form @submit.prevent>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <input v-model="form.email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+    <input v-model="form.password" type="password" class="form-control" id="exampleInputPassword1">
   </div>
   <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button v-on:click='onSubmit' type="submit" class="btn btn-primary">Submit</button>
 </form>
     
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
   export default {
     name: "user-registration",
     data() {
       return {
         form: {
           email: '',
+          password: '',
           name: '',
           food: null,
           checked: []
@@ -38,11 +41,26 @@
     },
     methods: {
       onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
+        // event.preventDefault()
+        // alert(JSON.stringify(this.form))
+        // this.$emit('create', this.form);
+        axios.post('http://localhost:8876/api/auth/login', {
+          email: this.form.email,
+          password: this.form.password
+        }).then(response => this.checkUser(response.data))
+          .catch(e => console.log(e.response));
       },
+
+      checkUser(response) {
+        let {status, data, message} = response;
+        if (status === 'Success')
+
+        console.log(status)
+        console.log(message)
+      },
+
       onReset(event) {
-        event.preventDefault()
+        // event.preventDefault()
         // Reset our form values
         this.form.email = ''
         this.form.name = ''
