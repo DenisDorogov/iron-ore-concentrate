@@ -32,4 +32,12 @@ Route::get('/', function () {
 //     });
 // });
 
-Route::get('{page}', MainController::class)->where('page', '.*');
+// Route::get('{page}', MainController::class)->where('page', '.*');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/table', function(Request $request) {
+        return auth()->user();
+    });
+
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+});

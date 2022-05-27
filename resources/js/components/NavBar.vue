@@ -1,10 +1,12 @@
 <template>
-    <div class="d-flex  mb-3 justify-content-evenly border-primary nav-bar">
+    <div class="d-flex  mb-3 justify-content-between border-primary nav-bar">
         <h1 class="title">Iron Ore Concentrate Tables</h1>
         <div class="buttons-container d-flex justify-content-start">
-            {{$store.state.user.isAuth ? $store.state.user.name : underfined}}
-            <my-button @click.prevent="$router.push('/table')" >Таблица</my-button>
-            <my-button @click.prevent="this.logout">Logout</my-button>
+          
+            <h5 v-if="$store.state.user.isAuth" class="mt-3">{{$store.state.user.name}} </h5>
+            <my-button @click.prevent="this.logout"  v-if="$store.state.user.isAuth">Logout</my-button>
+            <my-button @click.prevent="$router.push('/table')" v-else >Таблица</my-button>
+            
         </div>
         
 
@@ -13,7 +15,7 @@
 </template>
 
 <script>
-import router from '../router/router';
+// import router from '../router/router';
 import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
 
 export default {
