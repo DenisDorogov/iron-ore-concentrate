@@ -30,10 +30,15 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-// Route::group(['middleware' => ['auth:sanctum']], function () {
-//     Route::get('/table', function(Request $request) {
-//         return auth()->user();
-//     });
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/table', function(Request $request) {
+        return $this->success([
+            'id' => Auth()->user()->id,
+            'name' => Auth()->user()->name,
+            'token' => auth()->user()->createToken('API Token')->plainTextToken
+        ]);
+        // return auth()->user();
+    });
 
-//     Route::post('/auth/logout', [AuthController::class, 'logout']);
-// });
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+});

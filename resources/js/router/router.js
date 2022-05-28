@@ -10,13 +10,24 @@ const routes = [
     },
     {
         path: '/table',
-        component: TablePage
+        component: TablePage,
+        name: 'table'
     }
 ]
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes,
+})
+
+router.beforeEach((to, from, next )=> {
+    const token = localStorage.getItem('x_xsrf_token');
+    if (!token) {
+        if (to.name === 'registration') next()
+    } else next({name: 'registration'});
+
+    if (to.name === 'registration' && token) next({name: 'table'});
+
 })
 
 export default router;

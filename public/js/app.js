@@ -23069,20 +23069,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-// import router from '../router/router';
+/* harmony import */ var _router_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router/router */ "./resources/js/router/router.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'nav-bar',
   components: {},
   props: {},
+  data: function data() {
+    return {
+      token: null
+    };
+  },
+  mounted: function mounted() {
+    this.getToken();
+  },
   methods: {
+    getToken: function getToken() {
+      this.token = localStorage.getItem('x_xsrf_token');
+    },
     logout: function logout() {
       axios.post('http://localhost:8876/api/auth/logout', {}).then(function (response) {
-        console.log(response);
+        localStorage.removeItem('x_xsrf_token');
       })["catch"](function (e) {
         return console.log(e);
       });
-      router.push('/');
+      _router_router__WEBPACK_IMPORTED_MODULE_0__["default"].push('/');
     }
   }
 });
@@ -23229,8 +23240,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       form: {
         email: '',
         password: '',
-        name: '',
-        checked: []
+        name: ''
       }
     };
   },
@@ -23245,23 +23255,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     fetchUser: 'user/fetchUser'
   })), {}, {
     sendForm: function sendForm() {
-      console.log(this.form);
-      this.fetchUser(this.form);
-    },
-    onReset: function onReset(event) {
-      var _this = this;
-
-      // event.preventDefault()
-      // Reset our form values
-      this.form.email = '';
-      this.form.name = '';
-      this.form.food = null;
-      this.form.checked = []; // Trick to reset/clear native browser form validation state
-
-      this.show = false;
-      this.$nextTick(function () {
-        _this.show = true;
+      var email = this.form.email;
+      var password = this.form.password;
+      this.fetchUser({
+        email: email,
+        password: password
       });
+      this.form.email = null;
+      this.form.password = null;
     }
   })
 });
@@ -23334,7 +23335,7 @@ var _hoisted_3 = {
 };
 var _hoisted_4 = {
   key: 0,
-  "class": "mt-3"
+  "class": "mt-2"
 };
 
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Logout");
@@ -23344,9 +23345,9 @@ var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_my_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("my-button");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_ctx.$store.state.user.isAuth ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.user.name), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$data.token ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.user.name), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$store.state.user.isAuth ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_my_button, {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.token ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_my_button, {
     key: 1,
     onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(this.logout, ["prevent"])
   }, {
@@ -23358,7 +23359,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onClick"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_my_button, {
+  , ["onClick"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.token ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_my_button, {
     key: 2,
     onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return _ctx.$router.push('/table');
@@ -23370,7 +23371,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }))])]);
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 }
 
 /***/ }),
@@ -23519,39 +23520,15 @@ var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_4 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    id: "emailHelp",
-    "class": "form-text"
-  }, "We'll never share your email with anyone else.", -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_5 = {
+var _hoisted_4 = {
   "class": "mb-3"
 };
 
-var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_5 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "exampleInputPassword1",
     "class": "form-label"
   }, "Password", -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "mb-3 form-check"
-  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "checkbox",
-    "class": "form-check-input",
-    id: "exampleCheck1"
-  }), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "exampleCheck1"
-  }, "Check me out")], -1
   /* HOISTED */
   );
 });
@@ -23564,21 +23541,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.form.email = $event;
     }),
     type: "email",
-    "class": "form-control",
+    "class": "form-control input",
     id: "exampleInputEmail1",
     "aria-describedby": "emailHelp"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]]), _hoisted_4]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.form.password = $event;
     }),
     type: "password",
-    "class": "form-control",
+    "class": "form-control input",
     id: "exampleInputPassword1"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.password]])]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.sendForm && $options.sendForm.apply($options, arguments);
     }),
@@ -23631,6 +23608,9 @@ app.use(_router_router__WEBPACK_IMPORTED_MODULE_5__["default"]).use(_store_index
   \***********************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+var _require = __webpack_require__(/*! ./router/router */ "./resources/js/router/router.js"),
+    router = _require["default"];
+
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 try {
@@ -23647,6 +23627,16 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.withCredentials = true;
+window.axios.interceptors.response.use({}, function (err) {
+  if (err.response.status === 401 || err.response.status === 419) {
+    router.push({
+      name: 'registration'
+    });
+    var token = localStorage.getItem('x_xsrf_token');
+    if (token) localStorage.removeItem('x_xsrf_token');
+  }
+});
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -23710,11 +23700,25 @@ var routes = [{
   name: 'registration'
 }, {
   path: '/table',
-  component: _components_TablePage__WEBPACK_IMPORTED_MODULE_1__["default"]
+  component: _components_TablePage__WEBPACK_IMPORTED_MODULE_1__["default"],
+  name: 'table'
 }];
 var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createRouter)({
   history: (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createWebHistory)(process.env.BASE_URL),
   routes: routes
+});
+router.beforeEach(function (to, from, next) {
+  var token = localStorage.getItem('x_xsrf_token');
+
+  if (!token) {
+    if (to.name === 'registration') next();
+  } else next({
+    name: 'registration'
+  });
+
+  if (to.name === 'registration' && token) next({
+    name: 'table'
+  });
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
@@ -23732,8 +23736,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-/* harmony import */ var _tableModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tableModule */ "./resources/js/store/tableModule");
-/* harmony import */ var _userModule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./userModule */ "./resources/js/store/userModule");
+/* harmony import */ var _tableModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tableModule */ "./resources/js/store/tableModule.js");
+/* harmony import */ var _userModule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./userModule */ "./resources/js/store/userModule.js");
 
 
 
@@ -23746,6 +23750,157 @@ __webpack_require__.r(__webpack_exports__);
     user: _userModule__WEBPACK_IMPORTED_MODULE_1__.userModule
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/tableModule.js":
+/*!*******************************************!*\
+  !*** ./resources/js/store/tableModule.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "tableModule": () => (/* binding */ tableModule)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var tableModule = {
+  state: function state() {
+    return {
+      userId: null,
+      currentMonth: null,
+      sortBy: null
+    };
+  },
+  getters: {// sortedPosts(state) {
+    //     return [...state.posts].sort((post1, post2) => post1[state.selectedSort]?.localeCompare(post2[state.selectedSort]))
+    // },
+    // sortedAndSearchedPosts(state, getters) {
+    //     return getters.sortedPosts.filter(post => post.title.toLowerCase().includes(state.searchQuery.toLowerCase()))
+    // }
+  },
+  mutations: {// setPosts(state, posts) {
+    //     state.posts = posts;
+    // },
+    // setLoading(state, bool) {
+    //     state.isPostsLoading = bool
+    // },
+    // setPage(state, page) {
+    //     state.page = page
+    // },
+    // setSelectedSort(state, selectedSort) {
+    //     state.selectedSort = selectedSort
+    // },
+    // setTotalPages(state, totalPages) {
+    //     state.totalPages = totalPages
+    // },
+    // setSearchQuery(state, searchQuery) {
+    //     state.searchQuery = searchQuery
+    // },
+  },
+  actions: {// async fetchPosts({state, commit}) {
+    //     try {
+    //         commit('setLoading', true);
+    //         const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+    //             params: {
+    //                 _page: state.page,
+    //                 _limit: state.limit
+    //             }
+    //         });
+    //         commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / state.limit))
+    //         commit('setPosts', response.data)
+    //     } catch (e) {
+    //         console.log(e)
+    //     } finally {
+    //         commit('setLoading', false);
+    //     }
+    // },
+    // async loadMorePosts({state, commit}) {
+    //     try {
+    //         commit('setPage', state.page + 1)
+    //         const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+    //             params: {
+    //                 _page: state.page,
+    //                 _limit: state.limit
+    //             }
+    //         });
+    //         commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / state.limit))
+    //         commit('setPosts', [...state.posts, ...response.data]);
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+  },
+  namespaced: true
+};
+
+/***/ }),
+
+/***/ "./resources/js/store/userModule.js":
+/*!******************************************!*\
+  !*** ./resources/js/store/userModule.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "userModule": () => (/* binding */ userModule)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _router_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router/router */ "./resources/js/router/router.js");
+
+
+var userModule = {
+  state: function state() {
+    return {
+      userId: null,
+      isAuth: false,
+      name: ''
+    };
+  },
+  getters: {
+    getCurrentUserName: function getCurrentUserName() {
+      return this.name;
+    }
+  },
+  mutations: {
+    setCurrentUser: function setCurrentUser(state, data) {
+      state.userId = data.id, state.isAuth = true, state.name = data.name;
+    },
+    unSetCurrentlogout: function unSetCurrentlogout(state) {
+      state.userId = null, state.isAuth = false, state.name = '';
+    }
+  },
+  actions: {
+    fetchUser: function fetchUser(_ref, data) {
+      var _this = this;
+
+      var state = _ref.state,
+          commit = _ref.commit;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://localhost:8876/api/auth/login', {
+          email: data.email,
+          password: data.password
+        }).then(function (response) {
+          localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN']);
+          commit('setCurrentUser', response.data.data);
+
+          _this.router.push({
+            name: 'table'
+          });
+        });
+      })["catch"](function (e) {
+        return console.log(e.response);
+      });
+    }
+  },
+  namespaced: true
+};
 
 /***/ }),
 
@@ -28913,7 +29068,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* \n.mb-3 {\n    margin-bottom: 1rem!important;\n}\n.form-control {\n    display: block;\n    width: 100%;\n    padding: 0.375rem 0.75rem;\n    font-size: 1rem;\n    font-weight: 400;\n    line-height: 1.5;\n    color: #212529;\n    background-color: #fff;\n    background-clip: padding-box;\n    border: 1px solid #ced4da;\n    -webkit-appearance: none;\n    -moz-appearance: none;\n    appearance: none;\n    border-radius: 0.375rem;\n    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;\n}\n\nlabel {\n    display: inline-block;\n}\n.form-label {\n    margin-bottom: 0.5rem;\n}\n\nelement.style {\n}\n.form-text {\n    margin-top: 0.25rem;\n    font-size: .875em;\n    color: rgba(var(--bs-body-color-rgb),.75);\n}\n.form-check {\n    display: block;\n    min-height: 1.5rem;\n    padding-left: 1.5em;\n    margin-bottom: 0.125rem;\n}\n.btn-primary {\n    --bs-btn-color: #fff;\n    --bs-btn-bg: #0d6efd;\n    --bs-btn-border-color: #0d6efd;\n    --bs-btn-hover-color: #fff;\n    --bs-btn-hover-bg: #0b5ed7;\n    --bs-btn-hover-border-color: #0a58ca;\n    --bs-btn-focus-shadow-rgb: 49,132,253;\n    --bs-btn-active-color: #fff;\n    --bs-btn-active-bg: #0a58ca;\n    --bs-btn-active-border-color: #0a53be;\n    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n    --bs-btn-disabled-color: #fff;\n    --bs-btn-disabled-bg: #0d6efd;\n    --bs-btn-disabled-border-color: #0d6efd;\n}\n.btn {\n    --bs-btn-padding-x: 0.75rem;\n    --bs-btn-padding-y: 0.375rem;\n    --bs-btn-font-family: ;\n    --bs-btn-font-size: 1rem;\n    --bs-btn-font-weight: 400;\n    --bs-btn-line-height: 1.5;\n    --bs-btn-color: #212529;\n    --bs-btn-bg: transparent;\n    --bs-btn-border-width: 1px;\n    --bs-btn-border-color: transparent;\n    --bs-btn-border-radius: 0.375rem;\n    --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),0 1px 1px rgba(0, 0, 0, 0.075);\n    --bs-btn-disabled-opacity: 0.65;\n    --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);\n    display: inline-block;\n    padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);\n    font-family: var(--bs-btn-font-family);\n    font-size: var(--bs-btn-font-size);\n    font-weight: var(--bs-btn-font-weight);\n    line-height: var(--bs-btn-line-height);\n    color: var(--bs-btn-color);\n    text-align: center;\n    text-decoration: none;\n    vertical-align: middle;\n    cursor: pointer;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    user-select: none;\n    border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);\n    border-radius: var(--bs-btn-border-radius);\n    background-color: var(--bs-btn-bg);\n    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;\n}\nbutton, select {\n    text-transform: none;\n}\n.btn-primary:hover {\n    --bs-btn-color: #fff;\n    --bs-btn-bg: #0d6efd;\n    --bs-btn-border-color: #0d6efd;\n    --bs-btn-hover-color: #fff;\n    --bs-btn-hover-bg: #0b5ed7;\n    --bs-btn-hover-border-color: #0a58ca;\n    --bs-btn-focus-shadow-rgb: 49,132,253;\n    --bs-btn-active-color: #fff;\n    --bs-btn-active-bg: #0a58ca;\n    --bs-btn-active-border-color: #0a53be;\n    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n    --bs-btn-disabled-color: #fff;\n    --bs-btn-disabled-bg: #0d6efd;\n    --bs-btn-disabled-border-color: #0d6efd;\n}\n.btn-primary {\n    --bs-btn-color: #fff;\n    --bs-btn-bg: #0d6efd;\n    --bs-btn-border-color: #0d6efd;\n    --bs-btn-hover-color: #fff;\n    --bs-btn-hover-bg: #0b5ed7;\n    --bs-btn-hover-border-color: #0a58ca;\n    --bs-btn-focus-shadow-rgb: 49,132,253;\n    --bs-btn-active-color: #fff;\n    --bs-btn-active-bg: #0a58ca;\n    --bs-btn-active-border-color: #0a53be;\n    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);\n    --bs-btn-disabled-color: #fff;\n    --bs-btn-disabled-bg: #0d6efd;\n    --bs-btn-disabled-border-color: #0d6efd;\n} */\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.input[data-v-63989ee2] {\n  max-width: 300px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -52651,149 +52806,6 @@ var index = {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (index);
 
 
-
-/***/ }),
-
-/***/ "./resources/js/store/tableModule":
-/*!****************************************!*\
-  !*** ./resources/js/store/tableModule ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "tableModule": () => (/* binding */ tableModule)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-
-const tableModule = {
-    state: () => ({
-        userId: null,
-        currentMonth: null,
-        sortBy: null
-    }),
-    getters: {
-        // sortedPosts(state) {
-        //     return [...state.posts].sort((post1, post2) => post1[state.selectedSort]?.localeCompare(post2[state.selectedSort]))
-        // },
-        // sortedAndSearchedPosts(state, getters) {
-        //     return getters.sortedPosts.filter(post => post.title.toLowerCase().includes(state.searchQuery.toLowerCase()))
-        // }
-    },
-    mutations: {
-        // setPosts(state, posts) {
-        //     state.posts = posts;
-        // },
-        // setLoading(state, bool) {
-        //     state.isPostsLoading = bool
-        // },
-        // setPage(state, page) {
-        //     state.page = page
-        // },
-        // setSelectedSort(state, selectedSort) {
-        //     state.selectedSort = selectedSort
-        // },
-        // setTotalPages(state, totalPages) {
-        //     state.totalPages = totalPages
-        // },
-        // setSearchQuery(state, searchQuery) {
-        //     state.searchQuery = searchQuery
-        // },
-    },
-    actions: {
-        // async fetchPosts({state, commit}) {
-        //     try {
-        //         commit('setLoading', true);
-        //         const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-        //             params: {
-        //                 _page: state.page,
-        //                 _limit: state.limit
-        //             }
-        //         });
-        //         commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / state.limit))
-        //         commit('setPosts', response.data)
-        //     } catch (e) {
-        //         console.log(e)
-        //     } finally {
-        //         commit('setLoading', false);
-        //     }
-        // },
-        // async loadMorePosts({state, commit}) {
-        //     try {
-        //         commit('setPage', state.page + 1)
-        //         const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-        //             params: {
-        //                 _page: state.page,
-        //                 _limit: state.limit
-        //             }
-        //         });
-        //         commit('setTotalPages', Math.ceil(response.headers['x-total-count'] / state.limit))
-        //         commit('setPosts', [...state.posts, ...response.data]);
-        //     } catch (e) {
-        //         console.log(e)
-        //     }
-        // }
-    },
-    namespaced: true
-}
-
-/***/ }),
-
-/***/ "./resources/js/store/userModule":
-/*!***************************************!*\
-  !*** ./resources/js/store/userModule ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "userModule": () => (/* binding */ userModule)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-
-const userModule = {
-    state: () => ({
-        userId: null,
-        isAuth: false,
-        name: ''
-    }),
-    getters: {
-        getCurrentUserName() {
-            return this.name
-        }
-    },
-    mutations: {
-        setCurrentUser(state, data) {
-            state.userId = data.id,
-            state.isAuth = true,
-            state.name = data.name
-        },
-        unSetCurrentlogout(state) {
-            state.userId = null,
-            state.isAuth = false,
-            state.name = ''
-        }
-
-    },
-    actions: {
-        fetchUser({ state, commit}, data ) {
-        //     // axios.get('/sanctum/csrf-cookie')
-        //     //     .then(res => {
-                    axios__WEBPACK_IMPORTED_MODULE_0___default().post('http://localhost:8876/api/auth/login', {
-                        email: data.email,
-                        password: data.password
-                    }).then(response => commit('setCurrentUser', response.data.data))
-                     
-        },
-    },
-    namespaced: true
-}
 
 /***/ })
 
