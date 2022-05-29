@@ -22,10 +22,13 @@
         "vue": "^3.2.36",
         "vue-loader": "^16.0.0",
         "vue-router": "^4.0.15",
-        "vue-template-compiler": "^2.6.12"
+        "vue-template-compiler": "^2.6.12",
+        "bootstrap-vue": "^2.22.0",
+        "vuex": "^4.0.2"
     },
     "dependencies": {
         "bootstrap-vue": "^2.22.0",
         "vuex": "^4.0.2"
     }
+  
 }

@@ -1,10 +1,11 @@
 <template>
     <div class="container-md">
         <nav-bar></nav-bar>
-        <router-view></router-view>
-        
+        <user-registration v-if="!$store.state.user.isAuth"></user-registration>
+        <table-page v-if="$store.state.user.isAuth"></table-page>
+        <!--        <router-view></router-view>-->
     </div>
-    
+
 </template>
 
 
@@ -13,20 +14,41 @@ import UserRegistration from "./components/UserRegistration";
 import NavBar from "./components/NavBar";
 import TablePage from "./components/TablePage";
 
-  export default {
+
+export default {
     name: 'App',
     components: {UserRegistration, NavBar, TablePage},
 
+    data() {
+        return {
+            token: null,
+            // isAuth: this.$store.user.state.isAuth
+        }
+    },
+    watch: {
+        token() {
+            console.log('watch token');
+            this.getToken();
+        }
+    },
+
     mounted() {
-      console.log("Example component mounted");
-    }
-  };
+        this.getToken();
+    },
+
+
+    methods: {
+        getToken() {
+            this.token = localStorage.getItem('x_xsrf_token');
+        },
+    },
+};
 </script>
 
 
 <style scoped>
-  .selector-for-some-widget {
-  box-sizing: content-box;
+.selector-for-some-widget {
+    box-sizing: content-box;
 }
 
 .container-md {

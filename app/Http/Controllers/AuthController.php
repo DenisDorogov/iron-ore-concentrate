@@ -43,6 +43,8 @@ class AuthController extends Controller
             return $this->error('Credentials not match', 401);
         }
 
+        redirect()->route('table');
+
         return $this->success([
             'id' => Auth()->user()->id,
             'name' => Auth()->user()->name,

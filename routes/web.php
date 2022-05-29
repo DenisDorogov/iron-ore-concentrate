@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\TableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,17 @@ use App\Http\Controllers\MainController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/table', [TableController::class, 'getTable'])->name('table');
+    Route::get('/table/{month}', [TableController::class, 'getTheTable']);
+});
+
+
+
 
 //Auth::routes();
 
@@ -42,16 +50,15 @@ Route::get('/', function () {
 //     Route::post('/auth/logout', [AuthController::class, 'logout']);
 // });
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/table', function(Request $request) {
-        return $this->success([
-            'id' => Auth()->user()->id,
-            'name' => Auth()->user()->name,
-            'token' => auth()->user()->createToken('API Token')->plainTextToken
-        ]);
-        // return auth()->user();
-    });
+// Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::post('/auth/logout', [AuthController::class, 'logout']);
-});
+
+//     Route::post('/auth/logout', [AuthController::class, 'logout']);
+// });
+
+// Route::middleware('auth:sanctum')->get('/table', function (Request $request) {
+//     return $request->user();
+// });
+
+
 

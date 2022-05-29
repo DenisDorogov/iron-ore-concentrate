@@ -20,3 +20,15 @@ app.component('App', App);
 app.use(router).use(store).mount('#app');
 
 // Vue.use(Vuex)
+
+
+// debug($var1, $someString, $intValue, $object);
+// Debugbar::info($object);
+// Debugbar::error("Ошибка!");
+// Debugbar::warning("Осторожно ...");
+// Debugbar::addMessage('Другое сообщение', 'mylabel');
+// try {
+//     throw new Exception('foobar');
+// } catch (Exception $e) {
+//     Debugbar::addThrowable($e);
+// }

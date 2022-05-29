@@ -2,15 +2,16 @@
     <div class="d-flex  mb-3 justify-content-between border-primary nav-bar">
         <h1 class="title">Iron Ore Concentrate Tables</h1>
         <div class="buttons-container d-flex justify-content-start">
-          
-            <h5 v-if="token" class="mt-2">{{$store.state.user.name}} </h5>
-            <my-button @click.prevent="this.logout"  v-if="token">Logout</my-button>
-            <my-button @click.prevent="$router.push('/table')" v-if="!token" >Таблица</my-button>
-            
-        </div>
-        
 
-        
+            <h5 v-if="token" class="mt-2">{{$store.state.user.name}} </h5>
+            <my-button @click.prevent="this.logout"  v-if="$store.state.user.isAuth">Logout</my-button>
+            <my-button @click.prevent="this.toTable" v-if="!$store.state.user.isAuth" >Таблица</my-button>
+            <router-link to="/table">table</router-link>
+
+        </div>
+
+
+
     </div>
 </template>
 
@@ -31,9 +32,18 @@ export default {
         this.getToken();
     },
 
+    updated() {
+
+    },
+
     methods: {
         getToken() {
             this.token = localStorage.getItem('x_xsrf_token');
+            console.log('token: ', this.token);
+        },
+
+        toTable() {
+            $router.push('/table');
         },
 
         logout() {
@@ -42,7 +52,7 @@ export default {
                 localStorage.removeItem('x_xsrf_token');
                 })
               .catch(e => console.log(e));
-              router.push('/');
+            //   router.push('/');
         }
 
     }

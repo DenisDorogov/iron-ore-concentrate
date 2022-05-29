@@ -9,7 +9,7 @@ export const userModule = {
     }),
     getters: {
         getCurrentUserName() {
-            return this.name
+            return this.state.name;
         }
     },
     mutations: {
@@ -17,6 +17,7 @@ export const userModule = {
             state.userId = data.id,
             state.isAuth = true,
             state.name = data.name
+
         },
         unSetCurrentlogout(state) {
             state.userId = null,
@@ -26,19 +27,26 @@ export const userModule = {
 
     },
     actions: {
-        fetchUser( {state, commit}, data ) {
+        fetchUser( {state, commit, rootState}, data ) {
             axios.get('/sanctum/csrf-cookie')
                 .then(res => {
                     axios.post('http://localhost:8876/api/auth/login', {
                         email: data.email,
                         password: data.password
                     }).then(response => {
+                        console.log('fetchUser-response: ', response);
                         localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN']);
                         commit('setCurrentUser', response.data.data);
-                        this.router.push({name: 'table'})
-                    }) 
+                        debugger
+                        rootState.commit('toAuth');
+                        // window.console.log('fetchUser-router: ', this.router);
+                        // debug($var1, $someString, $intValue, $object);
+                        // Debugbar::info(router);
+                        // router.push({name: 'table'});
+
+                    })
                 }).catch(e => console.log(e.response));
-        } 
+        }
     },
     namespaced: true
 }
