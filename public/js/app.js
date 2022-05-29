@@ -23053,8 +23053,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      token: null // isAuth: this.$store.user.state.isAuth
-
+      token: null
     };
   },
   watch: {
@@ -23106,15 +23105,17 @@ __webpack_require__.r(__webpack_exports__);
       this.token = localStorage.getItem('x_xsrf_token');
       console.log('token: ', this.token);
     },
-    toTable: function toTable() {
-      $router.push('/table');
-    },
+    toTable: function toTable() {},
     logout: function logout() {
+      var _this = this;
+
       axios.post('http://localhost:8876/api/auth/logout', {}).then(function (response) {
         localStorage.removeItem('x_xsrf_token');
+
+        _this.$store.commit('user/unSetCurrentlogout');
       })["catch"](function (e) {
         return console.log(e);
-      }); //   router.push('/');
+      });
     }
   }
 });
@@ -23362,19 +23363,13 @@ var _hoisted_3 = {
 };
 var _hoisted_4 = {
   key: 0,
-  "class": "mt-2"
+  "class": "mt-3 me-3"
 };
 
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Logout");
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Таблица");
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("table");
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_my_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("my-button");
-
-  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$data.token ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.user.name), 1
   /* TEXT */
@@ -23390,28 +23385,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onClick"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !_ctx.$store.state.user.isAuth ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_my_button, {
-    key: 2,
-    onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(this.toTable, ["prevent"])
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_6];
-    }),
-    _: 1
-    /* STABLE */
-
-  }, 8
-  /* PROPS */
-  , ["onClick"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/table"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_7];
-    }),
-    _: 1
-    /* STABLE */
-
-  })])]);
+  , ["onClick"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <my-button @click.prevent=\"this.toTable\" v-if=\"!$store.state.user.isAuth\" >Таблица</my-button>")])]);
 }
 
 /***/ }),
@@ -23638,8 +23612,7 @@ _components_UI__WEBPACK_IMPORTED_MODULE_2__["default"].forEach(function (compone
   app.component(component.name, component);
 });
 app.component('App', _App_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
-app.use(_router_router__WEBPACK_IMPORTED_MODULE_5__["default"]).use(_store_index__WEBPACK_IMPORTED_MODULE_6__["default"]).mount('#app'); // Vue.use(Vuex)
-// debug($var1, $someString, $intValue, $object);
+app.use(_router_router__WEBPACK_IMPORTED_MODULE_5__["default"]).use(_store_index__WEBPACK_IMPORTED_MODULE_6__["default"]).mount('#app'); // debug($var1, $someString, $intValue, $object);
 // Debugbar::info($object);
 // Debugbar::error("Ошибка!");
 // Debugbar::warning("Осторожно ...");
@@ -23899,8 +23872,7 @@ var userModule = {
           console.log('fetchUser-response: ', response);
           localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN']);
           commit('setCurrentUser', response.data.data);
-          debugger;
-          rootState.commit('toAuth'); // window.console.log('fetchUser-router: ', this.router);
+          state.commit('user/setCurrentUser'); // window.console.log('fetchUser-router: ', this.router);
           // debug($var1, $someString, $intValue, $object);
           // Debugbar::info(router);
           // router.push({name: 'table'});

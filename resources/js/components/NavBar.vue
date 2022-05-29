@@ -3,10 +3,9 @@
         <h1 class="title">Iron Ore Concentrate Tables</h1>
         <div class="buttons-container d-flex justify-content-start">
 
-            <h5 v-if="token" class="mt-2">{{$store.state.user.name}} </h5>
+            <h5 v-if="token" class="mt-3 me-3">{{$store.state.user.name}} </h5>
             <my-button @click.prevent="this.logout"  v-if="$store.state.user.isAuth">Logout</my-button>
-            <my-button @click.prevent="this.toTable" v-if="!$store.state.user.isAuth" >Таблица</my-button>
-            <router-link to="/table">table</router-link>
+<!--            <my-button @click.prevent="this.toTable" v-if="!$store.state.user.isAuth" >Таблица</my-button>-->
 
         </div>
 
@@ -43,16 +42,16 @@ export default {
         },
 
         toTable() {
-            $router.push('/table');
+
         },
 
         logout() {
             axios.post('http://localhost:8876/api/auth/logout', {
             }).then(response => {
                 localStorage.removeItem('x_xsrf_token');
+                this.$store.commit('user/unSetCurrentlogout');
                 })
               .catch(e => console.log(e));
-            //   router.push('/');
         }
 
     }

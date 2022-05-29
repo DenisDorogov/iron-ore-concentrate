@@ -21,8 +21,7 @@ export default {
 
     data() {
         return {
-            token: null,
-            // isAuth: this.$store.user.state.isAuth
+            token: null
         }
     },
     watch: {

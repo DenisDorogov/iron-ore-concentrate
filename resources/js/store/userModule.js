@@ -37,8 +37,7 @@ export const userModule = {
                         console.log('fetchUser-response: ', response);
                         localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN']);
                         commit('setCurrentUser', response.data.data);
-                        debugger
-                        rootState.commit('toAuth');
+                        state.commit('user/setCurrentUser');
                         // window.console.log('fetchUser-router: ', this.router);
                         // debug($var1, $someString, $intValue, $object);
                         // Debugbar::info(router);

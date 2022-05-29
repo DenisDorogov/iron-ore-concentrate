@@ -4,12 +4,12 @@ import {userModule} from "./userModule";
 
 let store = createStore({
     state: {
-      isAuth: false,
+        isAuth: false,
     },
     mutations: {
-      toAuth(state) {
-          state.isAuth = true;
-      },
+        toAuth(state) {
+            state.isAuth = true;
+        },
         toCancelAuth(state) {
             state.isAuth = false;
         }

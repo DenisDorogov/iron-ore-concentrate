@@ -19,7 +19,6 @@ app.component('App', App);
 
 app.use(router).use(store).mount('#app');
 
-// Vue.use(Vuex)
 
 
 // debug($var1, $someString, $intValue, $object);
