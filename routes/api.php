@@ -32,6 +32,7 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/auth/user', [AuthController::class, 'getUser'])->name('getUser');
     // Route::get('/table', [TableController::class, 'table']);
     // Route::get('/table', function(Request $request) {
 

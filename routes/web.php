@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\GetController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +21,13 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/get/user', [GetController::class, 'getUser']);
     Route::get('/table', [TableController::class, 'getTable'])->name('table');
     Route::get('/table/{month}', [TableController::class, 'getTheTable']);
+});
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
 

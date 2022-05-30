@@ -23266,6 +23266,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
+  mounted: function mounted() {
+    this.setCurrentUser();
+  },
   methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)({
     userId: 'user/userID',
     isAuth: 'user/isAuth',
@@ -23853,10 +23856,23 @@ var userModule = {
   },
   mutations: {
     setCurrentUser: function setCurrentUser(state, data) {
-      state.userId = data.id, state.isAuth = true, state.name = data.name;
+      var user;
+
+      if (data === undefined) {
+        user = JSON.parse(localStorage.getItem('user'));
+      } else {
+        user = data;
+        localStorage.setItem('user', JSON.stringify({
+          id: user.id,
+          name: user.name
+        }));
+      }
+
+      console.log('setCurrentUser-user', user);
+      state.userId = user.id, state.isAuth = true, state.name = user.name;
     },
     unSetCurrentlogout: function unSetCurrentlogout(state) {
-      state.userId = null, state.isAuth = false, state.name = '';
+      state.userId = null, state.isAuth = false, state.name = '', localStorage.removeItem('user');
     }
   },
   actions: {
@@ -23871,11 +23887,7 @@ var userModule = {
         }).then(function (response) {
           console.log('fetchUser-response: ', response);
           localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN']);
-          commit('setCurrentUser', response.data.data);
-          state.commit('user/setCurrentUser'); // window.console.log('fetchUser-router: ', this.router);
-          // debug($var1, $someString, $intValue, $object);
-          // Debugbar::info(router);
-          // router.push({name: 'table'});
+          commit('setCurrentUser', response.data.data); // state.commit('user/setCurrentUser');
         });
       })["catch"](function (e) {
         return console.log(e.response);
@@ -29051,7 +29063,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.input[data-v-63989ee2] {\n  max-width: 300px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.input[data-v-63989ee2] {\n    max-width: 300px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

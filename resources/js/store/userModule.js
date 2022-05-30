@@ -14,20 +14,30 @@ export const userModule = {
     },
     mutations: {
         setCurrentUser(state, data) {
-            state.userId = data.id,
-            state.isAuth = true,
-            state.name = data.name
+            let user;
+            if (data === undefined) {
+                user = JSON.parse(localStorage.getItem('user'));
+            } else {
+                user = data;
+                localStorage.setItem('user', JSON.stringify({id: user.id, name: user.name}));
+            }
+            console.log('setCurrentUser-user', user);
+            state.userId = user.id,
+                state.isAuth = true,
+                state.name = user.name
 
         },
         unSetCurrentlogout(state) {
             state.userId = null,
-            state.isAuth = false,
-            state.name = ''
+                state.isAuth = false,
+                state.name = '',
+                localStorage.removeItem('user');
         }
+
 
     },
     actions: {
-        fetchUser( {state, commit, rootState}, data ) {
+        fetchUser({state, commit, rootState}, data) {
             axios.get('/sanctum/csrf-cookie')
                 .then(res => {
                     axios.post('http://localhost:8876/api/auth/login', {
@@ -37,11 +47,7 @@ export const userModule = {
                         console.log('fetchUser-response: ', response);
                         localStorage.setItem('x_xsrf_token', response.config.headers['X-XSRF-TOKEN']);
                         commit('setCurrentUser', response.data.data);
-                        state.commit('user/setCurrentUser');
-                        // window.console.log('fetchUser-router: ', this.router);
-                        // debug($var1, $someString, $intValue, $object);
-                        // Debugbar::info(router);
-                        // router.push({name: 'table'});
+                        // state.commit('user/setCurrentUser');
 
                     })
                 }).catch(e => console.log(e.response));
