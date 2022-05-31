@@ -1,79 +1,102 @@
 <template>
     <div>
         <h1 class="user-name">User Name</h1>
+        <my-button @click.prevent="generate">Generate</my-button>
         <label for="exampleInputEmail1" class="form-label">Введите данные месяца</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
         <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Дата</th>
-      <th scope="col">Fe</th>
-      <th scope="col">Si</th>
-      <th scope="col">Al</th>
-      <th scope="col">Ca</th>
-      <th scope="col">S</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-  </tbody>
-</table>
+            <thead>
+            <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">Fe</th>
+                <th scope="col">Si</th>
+                <th scope="col">Al</th>
+                <th scope="col">Ca</th>
+                <th scope="col">S</th>
+            </tr>
+            </thead>
+            <tbody>
+            <table-row
+                v-for="row in tableData"
+                :date="row.date"
+                :fe="row.fe"
+                :al="row.al"
+                :si="row.si"
+                :ca="row.ca"
+                :s="row.s"
+            ></table-row>
 
+            </tbody>
+        </table>
     </div>
 </template>
 
 
 <script>
 import axios from 'axios'
+import MyButton from "./UI/MyButton";
+import {mapActions, mapState} from "vuex";
+import TableRow from "./TableRow";
+// import store from "../store/index";
 
-    export default {
-        name: "table-page",
-        components: {},
-        methods: {
-          getData() {
-            axios.get('/api/get')
-                  .then( response => console.log('/api/get: ', response))
-          }
-        },
-        mounted() {
-          this.getData();
+export default {
+    name: "table-page",
+    components: {TableRow, MyButton},
+    data() {
+        return {
 
         }
-    }
+    },
+
+    computed: {
+        ...mapState({
+            tableData: state => state.table.dataIOC,
+        }),
+
+        getRowData() {
+            console.log('dataIOC', store.state.table.dataIOC);
+            return store.state.table.dataIOC;
+        }
+    },
+    created() {
+
+    },
+
+    methods: {
+        getData() {
+            axios.get('/api/get')
+                .then(response => console.log('/api/get: ', response))
+        },
+
+        generate() {
+            this.fillTheTable(10)
+        },
+        ...mapActions({
+            fillTheTable: 'table/fillTheTable'
+        }),
+
+        convertData(sec) {
+            return {year: getFullYear(sec), month: getMonth(sec)};
+        }
+
+
+    },
+
+    mounted() {
+        this.fillTheTable(10);
+    },
+}
 </script>
 
 
 <style scoped>
-    .table {
+.table {
     margin-top: 40px;
 
 }
+
 .user-name {
     margin-top: 40px;
+
 }
 </style>

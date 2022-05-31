@@ -4,7 +4,9 @@ import router from '../router/router';
 export const userModule = {
     state: () => ({
         userId: null,
-        isAuth: false,
+        // isAuth: false,
+        isAuth: true,//TODO Заглушка проблемы с БД
+
         name: ''
     }),
     getters: {

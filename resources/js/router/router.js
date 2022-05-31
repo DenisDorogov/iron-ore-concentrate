@@ -33,7 +33,7 @@ router.beforeEach((to, from, next )=> {
         };
     }
 
-    if (to.name === 'registration' && token) next({name: 'table'});
+    if (to.name === 'registration' && token) setTimeout( ()=> next({name: 'table'}, 500));
     });
 
 export default router;
