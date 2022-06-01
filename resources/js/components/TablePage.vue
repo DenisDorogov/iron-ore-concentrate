@@ -1,11 +1,35 @@
 <template>
     <div>
         <h1 class="user-name">User Name</h1>
-<!--        <my-button @click.prevent="generate">Generate</my-button>-->
         <label for="exampleInputEmail1" class="form-label">Введите данные месяца</label>
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 
-        <p>Добавить данные</p>
+        <form>
+            <div class="filter-table d-flex mt-3">
+                <h3 Class="me-4 mt-1">Выбор месяца</h3>
+                <select v-model="selectedMonth" class="sel form-select  ms-2" aria-label=".form-select-lg example">
+                    <option value="0">ЯНВАРЬ</option>
+                    <option value="1">ФЕВРАЛЬ</option>
+                    <option value="2">МАРТ</option>
+                    <option value="3">АПРЕЛЬ</option>
+                    <option value="4">МАЙ</option>
+                    <option value="5">ИЮНЬ</option>
+                    <option value="6">ИЮЛЬ</option>
+                    <option value="7">АВГУСТ</option>
+                    <option value="8">СЕНТЯБРЬ</option>
+                    <option value="9">ОКТЯБРЬ</option>
+                    <option value="10">НОЯБРЬ</option>
+                    <option value="11">ДЕКАБРЬ</option>
+                </select>
+                <select v-model="selectedYear" class="sel form-select  ms-2" aria-label=".form-select-lg example">
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                </select>
+                <my-button @click.prevent="chooseMonth" class="ms-2">Показать</my-button>
+            </div>
+        </form>
+
         <table class="table">
             <thead>
             <tr>
@@ -37,34 +61,68 @@
 <script>
 import axios from 'axios'
 import MyButton from "./UI/MyButton";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapState, mapMutations, mapGetters} from "vuex";
 import TableRow from "./TableRow";
-// import store from "../store/index";
+
 
 export default {
     name: "table-page",
     components: {TableRow, MyButton},
     data() {
         return {
-
+            selectedMonth: 3,
+            selectedYear: 2022,
+            tableData: []
         }
     },
 
     computed: {
+
+
         ...mapState({
-            tableData: state => state.table.dataIOC,
+            dataIOC: state => state.table.dataIOC,
+
+            // 'filter': state => state.table.filter,
+            // 'sortBy': state => state.table.sortBy
         }),
 
         getRowData() {
-            console.log('dataIOC', store.state.table.dataIOC);
-            return store.state.table.dataIOC;
+            // console.log('dataIOC', store.state.table.dataIOC);
+            // return store.state.table.dataIOC;
         }
     },
-    created() {
 
-    },
 
     methods: {
+        ...mapActions({
+            fillTheTable: 'table/fillTheTable'
+        }),
+
+        ...mapMutations({
+            // setDataIOC: 'table/setDataIOC',
+            setCurrentDate: 'table/setCurrentDate',
+            //  'table/setFilter'
+            // setSortBy: 'table/setSortBy',
+
+        }),
+
+
+        chooseMonth() {
+            this.setCurrentDate({month: this.selectedMonth, year: this.selectedYear});
+            let nextMonth = +( this.selectedMonth) + 2;
+            let month = +( this.selectedMonth) + 1;
+            let start = new Date(this.selectedYear, month, 1);
+            let end = new Date(this.selectedYear, nextMonth, 1);
+            this.tableData = [];
+            let result = this.dataIOC.map( (item) => {
+                if (item.date > +start && item.date <= +end) {
+                    this.tableData.push(item)
+                };
+            })
+
+            return result;
+        },
+
         getData() {
             axios.get('/api/get')
                 .then(response => console.log('/api/get: ', response))
@@ -72,21 +130,26 @@ export default {
 
         generate() {
             this.fillTheTable(100)
-        },
-        ...mapActions({
-            fillTheTable: 'table/fillTheTable'
-        }),
-
-        convertData(sec) {
-            return {year: getFullYear(sec), month: getMonth(sec)};
         }
 
-
     },
-
     mounted() {
-        this.fillTheTable(100);
+        console.log('mounted')
+
+
     },
+
+    created() {
+        console.log('created')
+        this.fillTheTable(100);
+        this.chooseMonth();
+    },
+
+    watch: {
+        // selectedMonth() { console.log('watch selectedMonth: ', this.selectedMonth)}
+    },
+
+
 }
 </script>
 
@@ -100,5 +163,13 @@ export default {
 .user-name {
     margin-top: 40px;
 
+}
+
+.filter-table {
+
+}
+
+.sel {
+    max-width: 120px;
 }
 </style>

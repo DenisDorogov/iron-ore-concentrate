@@ -15,10 +15,10 @@ export default {
     props: ['date', 'fe', 'si', 'al', 'ca', 's'],
     methods: {
         transformDate() {
-            console.log('Table-date>>', this.date);
-            let strDate = new Date(this.date*1000);
+            let strDate = new Date(this.date);
             let month = strDate.getMonth() > 9 ? strDate.getMonth() : '0'+ strDate.getMonth();
-            return strDate.getDate()+' - '+ month +' - '+ strDate.getFullYear();
+            let date = strDate.getDate() > 9 ? strDate.getDate() : '0' + strDate.getDate();
+            return date+' - '+ month +' - '+ strDate.getFullYear();
         },
     }
 }
