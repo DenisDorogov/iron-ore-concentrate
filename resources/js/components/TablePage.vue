@@ -1,24 +1,24 @@
 <template>
     <div>
         <h1 class="user-name">User Name</h1>
-        <my-button @click.prevent="generate">Generate</my-button>
+<!--        <my-button @click.prevent="generate">Generate</my-button>-->
         <label for="exampleInputEmail1" class="form-label">Введите данные месяца</label>
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">Дата</th>
-                <th scope="col">Fe</th>
-                <th scope="col">Si</th>
-                <th scope="col">Al</th>
-                <th scope="col">Ca</th>
-                <th scope="col">S</th>
+                <th scope="col">Fe, %</th>
+                <th scope="col">Si, %</th>
+                <th scope="col">Al, %</th>
+                <th scope="col">Ca, %</th>
+                <th scope="col">S, %</th>
             </tr>
             </thead>
             <tbody>
             <table-row
                 v-for="row in tableData"
-                :date="row.date"
+                :date="convertData(row.date)"
                 :fe="row.fe"
                 :al="row.al"
                 :si="row.si"

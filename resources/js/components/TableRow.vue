@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <th scope="row">{{date}}</th>
+        <th scope="row">{{date.month}}-{{date.year}}</th>
         <td>{{fe}}</td>
         <td>{{ al }}</td>
         <td>{{si}}</td>

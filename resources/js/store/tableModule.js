@@ -26,6 +26,7 @@ export const tableModule = {
                 let ca = Math.round((Math.random()*5+3)*100)/100;
                 let s = Math.round((Math.random()*3+2)*100)/100;
                 let fe = 99-al-si-ca-s;
+                fe = fe.toFixed(2);
                 let date = new Date();
                 date = date - Math.random()*153600000;
                 let row = {
