@@ -4,6 +4,8 @@
 <!--        <my-button @click.prevent="generate">Generate</my-button>-->
         <label for="exampleInputEmail1" class="form-label">Введите данные месяца</label>
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+
+        <p>Добавить данные</p>
         <table class="table">
             <thead>
             <tr>
@@ -18,7 +20,7 @@
             <tbody>
             <table-row
                 v-for="row in tableData"
-                :date="convertData(row.date)"
+                :date="row.date"
                 :fe="row.fe"
                 :al="row.al"
                 :si="row.si"
@@ -69,7 +71,7 @@ export default {
         },
 
         generate() {
-            this.fillTheTable(10)
+            this.fillTheTable(100)
         },
         ...mapActions({
             fillTheTable: 'table/fillTheTable'
@@ -83,7 +85,7 @@ export default {
     },
 
     mounted() {
-        this.fillTheTable(10);
+        this.fillTheTable(100);
     },
 }
 </script>

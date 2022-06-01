@@ -28,7 +28,10 @@ export const tableModule = {
                 let fe = 99-al-si-ca-s;
                 fe = fe.toFixed(2);
                 let date = new Date();
-                date = date - Math.random()*153600000;
+                console.log('Moduledate--', +date);
+                date = (+date)/1000 - (Math.random()*3600*24*365*3);
+                console.log('Moduledate  ', date);
+
                 let row = {
                     id: i,
                     date: date,
@@ -42,8 +45,10 @@ export const tableModule = {
             }
 
             commit('setDataIOC', data);
-        }
+        },
+
 
     },
+
     namespaced: true
 }
