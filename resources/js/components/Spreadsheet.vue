@@ -1,28 +1,35 @@
 <template>
-    <div ref="sheetEl" />
+    <Jspreadsheet :options="Options" />
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import jspreadsheet from "jspreadsheet";
-import "../../css/jspreadsheet.css";
-import "../../css/jsuites.css";
+import Jspreadsheet from "./Jspreadsheet";
 
 export default {
-    name: "Jspreadsheet",
-    props: {
-        options: {
-            type: Object,
-            require: true,
-        },
+    components: {
+        Jspreadsheet,
     },
     setup(props) {
-        const options = props.options ? { ...props.options } : {};
-        const sheetEl = ref(null);
-        onMounted(() => {
-            jspreadsheet(sheetEl.value, options);
-        });
-        return { sheetEl };
+        const Options = {
+            worksheets: [
+                {
+                    search: true,
+                    data: [
+                        [42, 42, 42, 42],
+                        [42, 42, 42, 42],
+                    ],
+                    columns: [
+                        { title: "First Column", width: 100 },
+                        { title: "Second Column", width: 150 },
+                        { title: "Third Column", width: 200 },
+                        { title: "Fourth Column", width: 250 },
+                    ],
+                },
+            ],
+            license:
+                "ZmQ4NWYyYjVmYTBjMDQwMDA3NjUwZjUwNTA4MDkwYWYzNWQ4OWE3MjQyZjJiZDU1YzM1MjA4OTI5OTEwZDlkMTNiMThkNzQ3YzNjZWI2ZGNjM2MyZGIwNDBmMzZmYzQwYWU1Y2EwOTEyMGE4MzU2M2Q2MjMzMTQ2MTUwNWEzOTIsZXlKdVlXMWxJam9pY0dGMWJDNW9iMlJsYkNJc0ltUmhkR1VpT2pFMk5qQTFNVGd3TURBc0ltUnZiV0ZwYmlJNld5SnFjMmhsYkd3dWJtVjBJaXdpYW5Od2NtVmhaSE5vWldWMExtTnZiU0lzSW1OellpNWhjSEFpTENKMVpTNWpiMjB1WW5JaUxDSjFibWwwWldRdVpXUjFZMkYwYVc5dUlpd2liRzlqWVd4b2IzTjBJbDBzSW5Cc1lXNGlPaUl6SWl3aWMyTnZjR1VpT2xzaWRqY2lMQ0oyT0NJc0luQmhjbk5sY2lJc0luTm9aV1YwY3lJc0ltWnZjbTF6SWl3aWNtVnVaR1Z5SWl3aVptOXliWFZzWVNKZGZRPT0=",
+        };
+        return { Options };
     },
 };
 </script>
