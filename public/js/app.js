@@ -23327,23 +23327,30 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: ['tableData'],
   setup: function setup(props) {
+    console.log('setup');
     var Options = {
       worksheets: [{
         search: true,
         data: props.tableData,
         // [ [42, 42, 42, 42],[42, 42, 42, 42],],
         columns: [{
-          title: "First Column",
+          title: "Date",
+          width: 250
+        }, {
+          title: "Fe, %",
           width: 100
         }, {
-          title: "Second Column",
-          width: 150
+          title: "Si, %",
+          width: 100
         }, {
-          title: "Third Column",
-          width: 200
+          title: "Al, %",
+          width: 100
         }, {
-          title: "Fourth Column",
-          width: 250
+          title: "Ca, %",
+          width: 100
+        }, {
+          title: "S, %",
+          width: 100
         }]
       }],
       license: "ZmQ4NWYyYjVmYTBjMDQwMDA3NjUwZjUwNTA4MDkwYWYzNWQ4OWE3MjQyZjJiZDU1YzM1MjA4OTI5OTEwZDlkMTNiMThkNzQ3YzNjZWI2ZGNjM2MyZGIwNDBmMzZmYzQwYWU1Y2EwOTEyMGE4MzU2M2Q2MjMzMTQ2MTUwNWEzOTIsZXlKdVlXMWxJam9pY0dGMWJDNW9iMlJsYkNJc0ltUmhkR1VpT2pFMk5qQTFNVGd3TURBc0ltUnZiV0ZwYmlJNld5SnFjMmhsYkd3dWJtVjBJaXdpYW5Od2NtVmhaSE5vWldWMExtTnZiU0lzSW1OellpNWhjSEFpTENKMVpTNWpiMjB1WW5JaUxDSjFibWwwWldRdVpXUjFZMkYwYVc5dUlpd2liRzlqWVd4b2IzTjBJbDBzSW5Cc1lXNGlPaUl6SWl3aWMyTnZjR1VpT2xzaWRqY2lMQ0oyT0NJc0luQmhjbk5sY2lJc0luTm9aV1YwY3lJc0ltWnZjbTF6SWl3aWNtVnVaR1Z5SWl3aVptOXliWFZzWVNKZGZRPT0="
@@ -23351,6 +23358,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       Options: Options
     };
+  },
+  mounted: function mounted() {
+    console.log('props-tableData', tableData);
   }
 });
 
@@ -23395,7 +23405,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       selectedMonth: 3,
       selectedYear: 2022,
-      tableData: []
+      tableData: [],
+      arrayData: []
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)({
@@ -23417,15 +23428,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     // setSortBy: 'table/setSortBy',
 
   })), {}, {
-    // transformDataToArray() {
-    //     let result = [];
-    //     this.tableData.map( item => {
-    //         result.push([item['date'], item['fe'], item['si'], item['al'], item['ca'], item['s']]);
-    //     })
-    //     this.tableArray = result;
-    // },
-    chooseMonth: function chooseMonth() {
+    transformDataToArray: function transformDataToArray() {
       var _this = this;
+
+      var result = [];
+      this.tableData.map(function (item) {
+        var date = new Date(item['date']);
+
+        var strDate = _this.transformDate(date);
+
+        result.push([strDate, item['fe'], item['si'], item['al'], item['ca'], item['s']]);
+      });
+      this.arrayData = result;
+    },
+    transformDate: function transformDate(numDate) {
+      var strDate = new Date(numDate);
+      var month = strDate.getMonth() > 9 ? strDate.getMonth() : '0' + strDate.getMonth();
+      var date = strDate.getDate() > 9 ? strDate.getDate() : '0' + strDate.getDate();
+      return date + ' - ' + month + ' - ' + strDate.getFullYear();
+    },
+    chooseMonth: function chooseMonth() {
+      var _this2 = this;
 
       this.setCurrentDate({
         month: this.selectedMonth,
@@ -23438,11 +23461,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.tableData = [];
       var result = this.dataIOC.map(function (item) {
         if (item.date > +start && item.date <= +end) {
-          _this.tableData.push(item);
+          _this2.tableData.push(item);
         }
 
         ;
       });
+      this.transformDataToArray();
       return result;
     },
     getData: function getData() {
@@ -23454,13 +23478,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.fillTheTable(100);
     }
   }),
-  mounted: function mounted() {
-    console.log('mounted');
+  mounted: function mounted() {// this.transformDataToArray();
+  },
+  beforeCreate: function beforeCreate() {
+    console.log('before-create: ', this.tableData);
   },
   created: function created() {
-    console.log('created');
     this.fillTheTable(200);
-    this.chooseMonth();
+    this.chooseMonth(); // this.transformDataToArray();
+
+    console.log('created: ', this.tableData);
   },
   watch: {// selectedMonth() { console.log('watch selectedMonth: ', this.selectedMonth)}
   }
@@ -23944,7 +23971,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Spreadsheet, {
-    tableData: $data.tableData
+    tableData: $data.arrayData
   }, null, 8
   /* PROPS */
   , ["tableData"])]);

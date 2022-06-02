@@ -54,7 +54,7 @@
 
             </tbody>
         </table>
-        <Spreadsheet :tableData="tableData" />
+        <Spreadsheet :tableData="arrayData" />
     </div>
 </template>
 
@@ -76,6 +76,7 @@ export default {
             selectedMonth: 3,
             selectedYear: 2022,
             tableData: [],
+            arrayData: []
         }
     },
 
@@ -109,13 +110,22 @@ export default {
             // setSortBy: 'table/setSortBy',
 
         }),
-        // transformDataToArray() {
-        //     let result = [];
-        //     this.tableData.map( item => {
-        //         result.push([item['date'], item['fe'], item['si'], item['al'], item['ca'], item['s']]);
-        //     })
-        //     this.tableArray = result;
-        // },
+        transformDataToArray() {
+            let result = [];
+            this.tableData.map( item => {
+                let date = new Date(item['date']);
+                let strDate = this.transformDate(date);
+                result.push([strDate, item['fe'], item['si'], item['al'], item['ca'], item['s']]);
+            })
+            this.arrayData = result;
+        },
+
+        transformDate(numDate) {
+            let strDate = new Date(numDate);
+            let month = strDate.getMonth() > 9 ? strDate.getMonth() : '0'+ strDate.getMonth();
+            let date = strDate.getDate() > 9 ? strDate.getDate() : '0' + strDate.getDate();
+            return date+' - '+ month +' - '+ strDate.getFullYear();
+        },
 
 
         chooseMonth() {
@@ -130,7 +140,7 @@ export default {
                     this.tableData.push(item)
                 };
             })
-
+            this.transformDataToArray();
             return result;
         },
 
@@ -145,15 +155,20 @@ export default {
 
     },
     mounted() {
-        console.log('mounted');
+        // this.transformDataToArray();
 
-
+    },
+    beforeCreate() {
+        console.log('before-create: ', this.tableData)
     },
 
     created() {
-        console.log('created');
+
+
         this.fillTheTable(200);
         this.chooseMonth();
+        // this.transformDataToArray();
+        console.log('created: ', this.tableData)
     },
 
     watch: {

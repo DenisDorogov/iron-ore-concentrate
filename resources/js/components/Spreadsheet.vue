@@ -12,6 +12,7 @@ export default {
     props: ['tableData'],
 
     setup(props) {
+        console.log('setup');
         const Options = {
             worksheets: [
                 {
@@ -33,5 +34,8 @@ export default {
         };
         return { Options };
     },
+    mounted() {
+        console.log('props-tableData', tableData);
+    }
 };
 </script>
