@@ -54,6 +54,7 @@
 
             </tbody>
         </table>
+        <Jspreadsheet :options="Options" />
     </div>
 </template>
 
@@ -63,11 +64,34 @@ import axios from 'axios'
 import MyButton from "./UI/MyButton";
 import {mapActions, mapState, mapMutations, mapGetters} from "vuex";
 import TableRow from "./TableRow";
+import Jspreadsheet from "./Spreadsheet";
 
 
 export default {
     name: "table-page",
-    components: {TableRow, MyButton},
+    components: {TableRow, MyButton, Jspreadsheet},
+    setup() {
+        const Options = {
+            worksheets: [
+                {
+                    search: true,
+                    data: [
+                        [42, 42, 42, 42],
+                        [42, 42, 42, 42],
+                    ],
+                    columns: [
+                        { title: "First Column", width: 100 },
+                        { title: "Second Column", width: 150 },
+                        { title: "Third Column", width: 200 },
+                        { title: "Fourth Column", width: 250 },
+                    ],
+                },
+            ],
+            license:
+                "ZmQ4NWYyYjVmYTBjMDQwMDA3NjUwZjUwNTA4MDkwYWYzNWQ4OWE3MjQyZjJiZDU1YzM1MjA4OTI5OTEwZDlkMTNiMThkNzQ3YzNjZWI2ZGNjM2MyZGIwNDBmMzZmYzQwYWU1Y2EwOTEyMGE4MzU2M2Q2MjMzMTQ2MTUwNWEzOTIsZXlKdVlXMWxJam9pY0dGMWJDNW9iMlJsYkNJc0ltUmhkR1VpT2pFMk5qQTFNVGd3TURBc0ltUnZiV0ZwYmlJNld5SnFjMmhsYkd3dWJtVjBJaXdpYW5Od2NtVmhaSE5vWldWMExtTnZiU0lzSW1OellpNWhjSEFpTENKMVpTNWpiMjB1WW5JaUxDSjFibWwwWldRdVpXUjFZMkYwYVc5dUlpd2liRzlqWVd4b2IzTjBJbDBzSW5Cc1lXNGlPaUl6SWl3aWMyTnZjR1VpT2xzaWRqY2lMQ0oyT0NJc0luQmhjbk5sY2lJc0luTm9aV1YwY3lJc0ltWnZjbTF6SWl3aWNtVnVaR1Z5SWl3aVptOXliWFZzWVNKZGZRPT0=",
+        };
+        return { Options };
+    },
     data() {
         return {
             selectedMonth: 3,
@@ -106,6 +130,10 @@ export default {
 
         }),
 
+        transformDataToArray() {
+            // let result = this.tableData.map()
+        },
+
 
         chooseMonth() {
             this.setCurrentDate({month: this.selectedMonth, year: this.selectedYear});
@@ -129,19 +157,19 @@ export default {
         },
 
         generate() {
-            this.fillTheTable(100)
+            this.fillTheTable(100);
         }
 
     },
     mounted() {
-        console.log('mounted')
+        console.log('mounted');
 
 
     },
 
     created() {
-        console.log('created')
-        this.fillTheTable(100);
+        console.log('created');
+        this.fillTheTable(200);
         this.chooseMonth();
     },
 

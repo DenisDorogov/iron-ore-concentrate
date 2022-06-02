@@ -7,11 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Iron Ore Concentrate</title>
+{{--    <script src="https://jspreadsheet.com/v8/jspreadsheet.js"></script>--}}
+{{--    <script src="https://jsuites.net/v4/jsuites.js"></script>--}}
+{{--    <link rel="stylesheet" href="https://jspreadsheet.com/v8/jspreadsheet.css" type="text/css" />--}}
+{{--    <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />--}}
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
+{{--    <link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" type="text/css" />--}}
     <style>
         /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
         html {
