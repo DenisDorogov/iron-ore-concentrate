@@ -23325,11 +23325,13 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Jspreadsheet: _Jspreadsheet__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  props: ['tableData'],
   setup: function setup(props) {
     var Options = {
       worksheets: [{
         search: true,
-        data: [[42, 42, 42, 42], [42, 42, 42, 42]],
+        data: props.tableData,
+        // [ [42, 42, 42, 42],[42, 42, 42, 42],],
         columns: [{
           title: "First Column",
           width: 100

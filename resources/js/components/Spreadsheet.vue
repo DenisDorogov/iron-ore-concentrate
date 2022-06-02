@@ -9,20 +9,22 @@ export default {
     components: {
         Jspreadsheet,
     },
+    props: ['tableData'],
+
     setup(props) {
         const Options = {
             worksheets: [
                 {
                     search: true,
-                    data: [
-                        [42, 42, 42, 42],
-                        [42, 42, 42, 42],
-                    ],
+                    data: props.tableData,
+                        // [ [42, 42, 42, 42],[42, 42, 42, 42],],
                     columns: [
-                        { title: "First Column", width: 100 },
-                        { title: "Second Column", width: 150 },
-                        { title: "Third Column", width: 200 },
-                        { title: "Fourth Column", width: 250 },
+                        { title: "Date", width: 250 },
+                        { title: "Fe, %", width: 100 },
+                        { title: "Si, %", width: 100 },
+                        { title: "Al, %", width: 100 },
+                        { title: "Ca, %", width: 100 },
+                        { title: "S, %", width: 100 },
                     ],
                 },
             ],
