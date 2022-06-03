@@ -35,7 +35,7 @@ export default {
         return { Options };
     },
     mounted() {
-        console.log('props-tableData', tableData);
+        // console.log('props-tableData', tableData);
     }
 };
 </script>

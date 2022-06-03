@@ -15,7 +15,10 @@ export default {
         },
     },
     setup(props) {
+        console.log('props: ', props);
         const options = props.options ? { ...props.options } : {};
+        console.log('options: ', options);
+
         const sheetEl = ref(null);
         onMounted(() => {
             jspreadsheet(sheetEl.value, options);

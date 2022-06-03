@@ -55,6 +55,7 @@
             </tbody>
         </table>
         <Spreadsheet :tableData="arrayData" />
+        <Jspreadsheet :options="options" />
     </div>
 </template>
 
@@ -65,18 +66,35 @@ import MyButton from "./UI/MyButton";
 import {mapActions, mapState, mapMutations, mapGetters} from "vuex";
 import TableRow from "./TableRow";
 import Spreadsheet from "./Spreadsheet";
+import Jspreadsheet from "./Jspreadsheet";
 
 
 export default {
     name: "table-page",
-    components: {TableRow, MyButton, Spreadsheet},
+    components: {TableRow, MyButton, Spreadsheet, Jspreadsheet},
 
     data() {
         return {
             selectedMonth: 3,
             selectedYear: 2022,
             tableData: [],
-            arrayData: []
+            arrayData: [],
+            options: {
+                worksheets: [
+                    {
+                        search: true,
+                        data: [],
+                        columns: [
+                            { title: "Date", width: 250 },
+                            { title: "Fe, %", width: 100 },
+                            { title: "Si, %", width: 100 },
+                            { title: "Al, %", width: 100 },
+                            { title: "Ca, %", width: 100 },
+                            { title: "S, %", width: 100 },
+                        ],
+                    },
+                ],
+            }
         }
     },
 
@@ -110,6 +128,17 @@ export default {
             // setSortBy: 'table/setSortBy',
 
         }),
+
+        updateOptions() {
+            let options = {worksheets: [{data: this.arrayData}]};
+            let newOptions = Object.assign({}, this.options, options);
+            options.worksheets.data = this.arrayData;
+            console.log('newOptions: ', newOptions);
+            console.log('this.options: ', this.options);
+            this.options = newOptions;
+
+        },
+
         transformDataToArray() {
             let result = [];
             this.tableData.map( item => {
@@ -141,6 +170,7 @@ export default {
                 };
             })
             this.transformDataToArray();
+            this.updateOptions();//TODO delete
             return result;
         },
 
@@ -159,7 +189,7 @@ export default {
 
     },
     beforeCreate() {
-        console.log('before-create: ', this.tableData)
+
     },
 
     created() {

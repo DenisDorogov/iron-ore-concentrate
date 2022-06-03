@@ -23247,7 +23247,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   setup: function setup(props) {
+    console.log('props: ', props);
     var options = props.options ? _objectSpread({}, props.options) : {};
+    console.log('options: ', options);
     var sheetEl = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       jspreadsheet__WEBPACK_IMPORTED_MODULE_1___default()(sheetEl.value, options);
@@ -23359,8 +23361,7 @@ __webpack_require__.r(__webpack_exports__);
       Options: Options
     };
   },
-  mounted: function mounted() {
-    console.log('props-tableData', tableData);
+  mounted: function mounted() {// console.log('props-tableData', tableData);
   }
 });
 
@@ -23380,9 +23381,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _UI_MyButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UI/MyButton */ "./resources/js/components/UI/MyButton.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var _TableRow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableRow */ "./resources/js/components/TableRow.vue");
 /* harmony import */ var _Spreadsheet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Spreadsheet */ "./resources/js/components/Spreadsheet.vue");
+/* harmony import */ var _Jspreadsheet__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Jspreadsheet */ "./resources/js/components/Jspreadsheet.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -23394,22 +23396,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "table-page",
   components: {
     TableRow: _TableRow__WEBPACK_IMPORTED_MODULE_2__["default"],
     MyButton: _UI_MyButton__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Spreadsheet: _Spreadsheet__WEBPACK_IMPORTED_MODULE_3__["default"]
+    Spreadsheet: _Spreadsheet__WEBPACK_IMPORTED_MODULE_3__["default"],
+    Jspreadsheet: _Jspreadsheet__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
       selectedMonth: 3,
       selectedYear: 2022,
       tableData: [],
-      arrayData: []
+      arrayData: [],
+      options: {
+        worksheets: [{
+          search: true,
+          data: [],
+          columns: [{
+            title: "Date",
+            width: 250
+          }, {
+            title: "Fe, %",
+            width: 100
+          }, {
+            title: "Si, %",
+            width: 100
+          }, {
+            title: "Al, %",
+            width: 100
+          }, {
+            title: "Ca, %",
+            width: 100
+          }, {
+            title: "S, %",
+            width: 100
+          }]
+        }]
+      }
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)({
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)({
     dataIOC: function dataIOC(state) {
       return state.table.dataIOC;
     } // 'filter': state => state.table.filter,
@@ -23420,14 +23449,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       // return store.state.table.dataIOC;
     }
   }),
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)({
     fillTheTable: 'table/fillTheTable'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapMutations)({
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapMutations)({
     // setDataIOC: 'table/setDataIOC',
     setCurrentDate: 'table/setCurrentDate' //  'table/setFilter'
     // setSortBy: 'table/setSortBy',
 
   })), {}, {
+    updateOptions: function updateOptions() {
+      var options = {
+        worksheets: [{
+          data: this.arrayData
+        }]
+      };
+      var newOptions = Object.assign({}, this.options, options);
+      options.worksheets.data = this.arrayData;
+      console.log('newOptions: ', newOptions);
+      console.log('this.options: ', this.options);
+      this.options = newOptions;
+    },
     transformDataToArray: function transformDataToArray() {
       var _this = this;
 
@@ -23467,6 +23508,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ;
       });
       this.transformDataToArray();
+      this.updateOptions(); //TODO delete
+
       return result;
     },
     getData: function getData() {
@@ -23480,9 +23523,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   mounted: function mounted() {// this.transformDataToArray();
   },
-  beforeCreate: function beforeCreate() {
-    console.log('before-create: ', this.tableData);
-  },
+  beforeCreate: function beforeCreate() {},
   created: function created() {
     this.fillTheTable(200);
     this.chooseMonth(); // this.transformDataToArray();
@@ -23929,6 +23970,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_Spreadsheet = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Spreadsheet");
 
+  var _component_Jspreadsheet = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Jspreadsheet");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, _hoisted_2, _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedMonth = $event;
@@ -23974,7 +24017,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     tableData: $data.arrayData
   }, null, 8
   /* PROPS */
-  , ["tableData"])]);
+  , ["tableData"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Jspreadsheet, {
+    options: $data.options
+  }, null, 8
+  /* PROPS */
+  , ["options"])]);
 }
 
 /***/ }),
