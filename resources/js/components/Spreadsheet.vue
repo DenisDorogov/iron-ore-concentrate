@@ -1,5 +1,5 @@
 <template>
-    <Jspreadsheet :options="Options" />
+    <Jspreadsheet :options="Options" :data="tableData" />
 </template>
 
 <script>
@@ -10,9 +10,36 @@ export default {
         Jspreadsheet,
     },
     props: ['tableData'],
+    data() {
+        return {
+            arrayData: []
+        }
+    },
+
+    computed: {
+        Options: function () {
+            console.log('Spreadsheet-computed-Options');
+            return {
+                worksheets: [
+                    {
+                        search: true,
+                        data: this.tableData,
+                        columns: [
+                            { title: "Date", width: 250 },
+                            { title: "Fe, %", width: 100 },
+                            { title: "Si, %", width: 100 },
+                            { title: "Al, %", width: 100 },
+                            { title: "Ca, %", width: 100 },
+                            { title: "S, %", width: 100 },
+                        ],
+                    },
+                ],
+            }
+        },
+    },
 
     setup(props) {
-        console.log('setup');
+        console.log('setup-1');
         const Options = {
             worksheets: [
                 {
@@ -36,6 +63,9 @@ export default {
     },
     mounted() {
         // console.log('props-tableData', tableData);
+    },
+    watch: {
+        tableData: console.log('Spreadsheet-watch-tableData')
     }
 };
 </script>

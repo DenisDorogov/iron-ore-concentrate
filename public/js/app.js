@@ -23241,10 +23241,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Jspreadsheet",
   props: {
+    data: Array,
     options: {
       type: Object,
       require: true
     }
+  },
+  data: function data() {
+    return {};
+  },
+  // mounted() {
+  //     this.init();
+  // },
+  methods: {// init() {
+    //     console.log('props: ', props);
+    //     const options = props.options ? {...props.options} : {};
+    //     console.log('options: ', options);
+    //
+    //     const sheetEl = ref(null);
+    //     onMounted(() => {
+    //         jspreadsheet(sheetEl.value, options);
+    //     });
+    //     return {sheetEl};
+    // }
   },
   setup: function setup(props) {
     console.log('props: ', props);
@@ -23257,6 +23276,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       sheetEl: sheetEl
     };
+  },
+  watch: {// data: this.$forceUpdate()
   }
 });
 
@@ -23328,8 +23349,43 @@ __webpack_require__.r(__webpack_exports__);
     Jspreadsheet: _Jspreadsheet__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: ['tableData'],
+  data: function data() {
+    return {
+      arrayData: []
+    };
+  },
+  computed: {
+    Options: function Options() {
+      console.log('Spreadsheet-computed-Options');
+      return {
+        worksheets: [{
+          search: true,
+          data: this.tableData,
+          columns: [{
+            title: "Date",
+            width: 250
+          }, {
+            title: "Fe, %",
+            width: 100
+          }, {
+            title: "Si, %",
+            width: 100
+          }, {
+            title: "Al, %",
+            width: 100
+          }, {
+            title: "Ca, %",
+            width: 100
+          }, {
+            title: "S, %",
+            width: 100
+          }]
+        }]
+      };
+    }
+  },
   setup: function setup(props) {
-    console.log('setup');
+    console.log('setup-1');
     var Options = {
       worksheets: [{
         search: true,
@@ -23362,6 +23418,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {// console.log('props-tableData', tableData);
+  },
+  watch: {
+    tableData: console.log('Spreadsheet-watch-tableData')
   }
 });
 
@@ -23410,35 +23469,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       selectedMonth: 3,
       selectedYear: 2022,
       tableData: [],
-      arrayData: [],
-      options: {
-        worksheets: [{
-          search: true,
-          data: [],
-          columns: [{
-            title: "Date",
-            width: 250
-          }, {
-            title: "Fe, %",
-            width: 100
-          }, {
-            title: "Si, %",
-            width: 100
-          }, {
-            title: "Al, %",
-            width: 100
-          }, {
-            title: "Ca, %",
-            width: 100
-          }, {
-            title: "S, %",
-            width: 100
-          }]
-        }]
-      }
+      test: [] // arrayData: [],
+      // options: {
+      //     worksheets: [
+      //         {
+      //             search: true,
+      //             data: [],
+      //             columns: [
+      //                 { title: "Date", width: 250 },
+      //                 { title: "Fe, %", width: 100 },
+      //                 { title: "Si, %", width: 100 },
+      //                 { title: "Al, %", width: 100 },
+      //                 { title: "Ca, %", width: 100 },
+      //                 { title: "S, %", width: 100 },
+      //             ],
+      //         },
+      //     ],
+      // },
+
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)({
+  computed: _objectSpread(_objectSpread({
+    arrayData: function arrayData() {
+      console.log('addData');
+      var data = this.transformDataToArray();
+      console.log('addData-data', data); // console.log('addData-options', this.options);
+      // return [...this.transformDataToArray()];
+
+      return data;
+    }
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)({
     dataIOC: function dataIOC(state) {
       return state.table.dataIOC;
     } // 'filter': state => state.table.filter,
@@ -23457,17 +23517,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     // setSortBy: 'table/setSortBy',
 
   })), {}, {
-    updateOptions: function updateOptions() {
-      var options = {
-        worksheets: [{
-          data: this.arrayData
-        }]
-      };
-      var newOptions = Object.assign({}, this.options, options);
-      options.worksheets.data = this.arrayData;
-      console.log('newOptions: ', newOptions);
-      console.log('this.options: ', this.options);
-      this.options = newOptions;
+    updateOptions: function updateOptions() {// let options = {worksheets: [{data: this.arrayData}]};
+      // let newOptions = Object.assign( this.options, options);
+      // options.worksheets.data = this.arrayData;
+      // console.log('newOptions: ', newOptions);
+      // console.log('this.options: ', this.options);
+      // this.options = newOptions;
+      // this.addData();
+      // Object.assign(this.$data, this.$options.data.call(this));
     },
     transformDataToArray: function transformDataToArray() {
       var _this = this;
@@ -23480,7 +23537,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         result.push([strDate, item['fe'], item['si'], item['al'], item['ca'], item['s']]);
       });
-      this.arrayData = result;
+      console.log('transformDataToArray-arrayData1: ', this.arrayData);
+      this.test = result; // Object.assign(this.arrayData, result)
+      // this.arrayData = result;
+      // console.log('transformDataToArray-arrayData2: ', this.arrayData);
+      // Object.assign(this.$data, this.$options.data.call(this));
+
+      return result;
     },
     transformDate: function transformDate(numDate) {
       var strDate = new Date(numDate);
@@ -23506,8 +23569,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         ;
-      });
-      this.transformDataToArray();
+      }); // this.transformDataToArray();
+
       this.updateOptions(); //TODO delete
 
       return result;
@@ -23530,7 +23593,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     console.log('created: ', this.tableData);
   },
-  watch: {// selectedMonth() { console.log('watch selectedMonth: ', this.selectedMonth)}
+  watch: {
+    arrayData: console.log('watch: arrayData'),
+    tableData: console.log('watch: tableData'),
+    test: console.log('watch: test')
   }
 });
 
@@ -23843,10 +23909,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Jspreadsheet = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Jspreadsheet");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Jspreadsheet, {
-    options: $setup.Options
+    options: $setup.Options,
+    data: $props.tableData
   }, null, 8
   /* PROPS */
-  , ["options"]);
+  , ["options", "data"]);
 }
 
 /***/ }),
@@ -23970,8 +24037,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_Spreadsheet = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Spreadsheet");
 
-  var _component_Jspreadsheet = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Jspreadsheet");
-
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, _hoisted_2, _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedMonth = $event;
@@ -24014,14 +24079,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Spreadsheet, {
-    tableData: $data.arrayData
+    tableData: $options.arrayData
   }, null, 8
   /* PROPS */
-  , ["tableData"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Jspreadsheet, {
-    options: $data.options
-  }, null, 8
-  /* PROPS */
-  , ["options"])]);
+  , ["tableData"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <Jspreadsheet :options=\"options\" />")]);
 }
 
 /***/ }),

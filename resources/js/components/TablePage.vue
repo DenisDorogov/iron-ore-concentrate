@@ -55,7 +55,7 @@
             </tbody>
         </table>
         <Spreadsheet :tableData="arrayData" />
-        <Jspreadsheet :options="options" />
+<!--        <Jspreadsheet :options="options" />-->
     </div>
 </template>
 
@@ -78,27 +78,59 @@ export default {
             selectedMonth: 3,
             selectedYear: 2022,
             tableData: [],
-            arrayData: [],
-            options: {
-                worksheets: [
-                    {
-                        search: true,
-                        data: [],
-                        columns: [
-                            { title: "Date", width: 250 },
-                            { title: "Fe, %", width: 100 },
-                            { title: "Si, %", width: 100 },
-                            { title: "Al, %", width: 100 },
-                            { title: "Ca, %", width: 100 },
-                            { title: "S, %", width: 100 },
-                        ],
-                    },
-                ],
-            }
+            test: []
+            // arrayData: [],
+            // options: {
+            //     worksheets: [
+            //         {
+            //             search: true,
+            //             data: [],
+            //             columns: [
+            //                 { title: "Date", width: 250 },
+            //                 { title: "Fe, %", width: 100 },
+            //                 { title: "Si, %", width: 100 },
+            //                 { title: "Al, %", width: 100 },
+            //                 { title: "Ca, %", width: 100 },
+            //                 { title: "S, %", width: 100 },
+            //             ],
+            //         },
+            //     ],
+            // },
         }
     },
 
     computed: {
+        arrayData: function () {
+            console.log('addData');
+            let data = this.transformDataToArray()
+            console.log('addData-data', data);
+            // console.log('addData-options', this.options);
+            // return [...this.transformDataToArray()];
+            return data;
+        },
+        // options: function () {
+        //     return {
+        //         worksheets: [
+        //             {
+        //                 search: true,
+        //                 data: [],
+        //                 columns: [
+        //                     { title: "Date", width: 250 },
+        //                     { title: "Fe, %", width: 100 },
+        //                     { title: "Si, %", width: 100 },
+        //                     { title: "Al, %", width: 100 },
+        //                     { title: "Ca, %", width: 100 },
+        //                     { title: "S, %", width: 100 },
+        //                 ],
+        //             },
+        //         ],
+        //     }
+        // },
+
+
+
+
+
 
 
 
@@ -130,13 +162,15 @@ export default {
         }),
 
         updateOptions() {
-            let options = {worksheets: [{data: this.arrayData}]};
-            let newOptions = Object.assign({}, this.options, options);
-            options.worksheets.data = this.arrayData;
-            console.log('newOptions: ', newOptions);
-            console.log('this.options: ', this.options);
-            this.options = newOptions;
 
+            // let options = {worksheets: [{data: this.arrayData}]};
+            // let newOptions = Object.assign( this.options, options);
+            // options.worksheets.data = this.arrayData;
+            // console.log('newOptions: ', newOptions);
+            // console.log('this.options: ', this.options);
+            // this.options = newOptions;
+            // this.addData();
+            // Object.assign(this.$data, this.$options.data.call(this));
         },
 
         transformDataToArray() {
@@ -146,7 +180,14 @@ export default {
                 let strDate = this.transformDate(date);
                 result.push([strDate, item['fe'], item['si'], item['al'], item['ca'], item['s']]);
             })
-            this.arrayData = result;
+
+            console.log('transformDataToArray-arrayData1: ', this.arrayData);
+            this.test = result;
+            // Object.assign(this.arrayData, result)
+            // this.arrayData = result;
+            // console.log('transformDataToArray-arrayData2: ', this.arrayData);
+            // Object.assign(this.$data, this.$options.data.call(this));
+            return result;
         },
 
         transformDate(numDate) {
@@ -169,7 +210,7 @@ export default {
                     this.tableData.push(item)
                 };
             })
-            this.transformDataToArray();
+            // this.transformDataToArray();
             this.updateOptions();//TODO delete
             return result;
         },
@@ -202,7 +243,9 @@ export default {
     },
 
     watch: {
-        // selectedMonth() { console.log('watch selectedMonth: ', this.selectedMonth)}
+        arrayData: console.log('watch: arrayData'),
+        tableData: console.log('watch: tableData'),
+        test: console.log('watch: test')
     },
 
 
