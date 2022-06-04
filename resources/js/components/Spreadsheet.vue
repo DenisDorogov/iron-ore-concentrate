@@ -1,13 +1,15 @@
 <template>
     <Jspreadsheet :options="Options" />
+
 </template>
 
 <script>
 import Jspreadsheet from "./Jspreadsheet";
+import MyButton from "./UI/MyButton";
 
 export default {
     components: {
-        Jspreadsheet,
+        Jspreadsheet, MyButton
     },
     props: ['tableData'],
 
@@ -35,7 +37,7 @@ export default {
         return { Options };
     },
     mounted() {
-        console.log('props-tableData', tableData);
+        // console.log('props-tableData', tableData);
     }
 };
 </script>

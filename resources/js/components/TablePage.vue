@@ -5,7 +5,7 @@
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 
         <form>
-            <div class="filter-table d-flex mt-3">
+            <div class="filter-table d-flex mt-3 mb-3">
                 <h3 Class="me-4 mt-1">Выбор месяца</h3>
                 <select v-model="selectedMonth" class="sel form-select  ms-2" aria-label=".form-select-lg example">
                     <option value="0">ЯНВАРЬ</option>
@@ -30,31 +30,31 @@
             </div>
         </form>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Дата</th>
-                <th scope="col">Fe, %</th>
-                <th scope="col">Si, %</th>
-                <th scope="col">Al, %</th>
-                <th scope="col">Ca, %</th>
-                <th scope="col">S, %</th>
-            </tr>
-            </thead>
-            <tbody>
-            <table-row
-                v-for="row in tableData"
-                :date="row.date"
-                :fe="row.fe"
-                :al="row.al"
-                :si="row.si"
-                :ca="row.ca"
-                :s="row.s"
-            ></table-row>
+<!--        <table class="table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Дата</th>-->
+<!--                <th scope="col">Fe, %</th>-->
+<!--                <th scope="col">Si, %</th>-->
+<!--                <th scope="col">Al, %</th>-->
+<!--                <th scope="col">Ca, %</th>-->
+<!--                <th scope="col">S, %</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <table-row-->
+<!--                v-for="row in tableData"-->
+<!--                :date="row.date"-->
+<!--                :fe="row.fe"-->
+<!--                :al="row.al"-->
+<!--                :si="row.si"-->
+<!--                :ca="row.ca"-->
+<!--                :s="row.s"-->
+<!--            ></table-row>-->
 
-            </tbody>
-        </table>
-        <Spreadsheet :tableData="arrayData" />
+<!--            </tbody>-->
+<!--        </table>-->
+        <Spreadsheet :tableData="arrayData" :key="componentKey" />
     </div>
 </template>
 
@@ -76,7 +76,8 @@ export default {
             selectedMonth: 3,
             selectedYear: 2022,
             tableData: [],
-            arrayData: []
+            arrayData: [],
+            componentKey: 0
         }
     },
 
@@ -110,6 +111,11 @@ export default {
             // setSortBy: 'table/setSortBy',
 
         }),
+
+        updateJspreadsheet() {
+            this.componentKey += 1;
+            // this.Jspreadsheet.$forceUpdate();
+        },
         transformDataToArray() {
             let result = [];
             this.tableData.map( item => {
@@ -141,6 +147,7 @@ export default {
                 };
             })
             this.transformDataToArray();
+            this.updateJspreadsheet();
             return result;
         },
 

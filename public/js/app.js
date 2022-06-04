@@ -23320,10 +23320,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Jspreadsheet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Jspreadsheet */ "./resources/js/components/Jspreadsheet.vue");
+/* harmony import */ var _UI_MyButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UI/MyButton */ "./resources/js/components/UI/MyButton.vue");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    Jspreadsheet: _Jspreadsheet__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Jspreadsheet: _Jspreadsheet__WEBPACK_IMPORTED_MODULE_0__["default"],
+    MyButton: _UI_MyButton__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: ['tableData'],
   setup: function setup(props) {
@@ -23359,8 +23362,7 @@ __webpack_require__.r(__webpack_exports__);
       Options: Options
     };
   },
-  mounted: function mounted() {
-    console.log('props-tableData', tableData);
+  mounted: function mounted() {// console.log('props-tableData', tableData);
   }
 });
 
@@ -23406,7 +23408,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       selectedMonth: 3,
       selectedYear: 2022,
       tableData: [],
-      arrayData: []
+      arrayData: [],
+      componentKey: 0
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)({
@@ -23428,6 +23431,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     // setSortBy: 'table/setSortBy',
 
   })), {}, {
+    updateJspreadsheet: function updateJspreadsheet() {
+      this.componentKey += 1; // this.Jspreadsheet.$forceUpdate();
+    },
     transformDataToArray: function transformDataToArray() {
       var _this = this;
 
@@ -23467,6 +23473,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ;
       });
       this.transformDataToArray();
+      this.updateJspreadsheet();
       return result;
     },
     getData: function getData() {
@@ -23857,7 +23864,7 @@ var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
 });
 
 var _hoisted_4 = {
-  "class": "filter-table d-flex mt-3"
+  "class": "filter-table d-flex mt-3 mb-3"
 };
 
 var _hoisted_5 = /*#__PURE__*/_withScopeId(function () {
@@ -23900,32 +23907,8 @@ var _hoisted_22 = [_hoisted_19, _hoisted_20, _hoisted_21];
 
 var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Показать");
 
-var _hoisted_24 = {
-  "class": "table"
-};
-
-var _hoisted_25 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col"
-  }, "Дата"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col"
-  }, "Fe, %"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col"
-  }, "Si, %"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col"
-  }, "Al, %"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col"
-  }, "Ca, %"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col"
-  }, "S, %")])], -1
-  /* HOISTED */
-  );
-});
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_my_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("my-button");
-
-  var _component_table_row = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("table-row");
 
   var _component_Spreadsheet = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Spreadsheet");
 
@@ -23957,24 +23940,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onClick"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.tableData, function (row) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_table_row, {
-      date: row.date,
-      fe: row.fe,
-      al: row.al,
-      si: row.si,
-      ca: row.ca,
-      s: row.s
-    }, null, 8
-    /* PROPS */
-    , ["date", "fe", "al", "si", "ca", "s"]);
-  }), 256
-  /* UNKEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Spreadsheet, {
-    tableData: $data.arrayData
+  , ["onClick"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <table class=\"table\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <thead>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <tr>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <th scope=\"col\">Дата</th>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <th scope=\"col\">Fe, %</th>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <th scope=\"col\">Si, %</th>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <th scope=\"col\">Al, %</th>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <th scope=\"col\">Ca, %</th>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <th scope=\"col\">S, %</th>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            </tr>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            </thead>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <tbody>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <table-row"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                v-for=\"row in tableData\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                :date=\"row.date\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                :fe=\"row.fe\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                :al=\"row.al\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                :si=\"row.si\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                :ca=\"row.ca\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                :s=\"row.s\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            ></table-row>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            </tbody>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </table>"), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Spreadsheet, {
+    tableData: $data.arrayData,
+    key: $data.componentKey
   }, null, 8
   /* PROPS */
-  , ["tableData"])]);
+  , ["tableData"]))]);
 }
 
 /***/ }),
